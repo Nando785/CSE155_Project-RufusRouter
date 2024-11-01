@@ -31,8 +31,13 @@ graph = {
         {'to': 'acs', 'weight': 276.14, 'pathName': 'academicQuad'},
         {'to': 'se2', 'weight': 276.14, 'pathName': 'mineralKingBridge'}
     ],
+    'NodeSE': [
+        {'to': 'cob1', 'weight': NULL, 'pathName': 'SE1WalkWay'},
+        {'to': 'se2', 'weight': NULL, 'pathName': 'mineralKingBridge2'},
+        {'to': 'bsp', 'weight': NULL, 'pathName': 'mineralKingBridge'}
+    ]
     # 'se2':[
-    #     {'to':'bsp', 'weight': NULL, 'pathName':'mineralKingsBridge'},
+    #     {'to':'bsp', 'weight': NULL, 'pathName':'mineralKingBridge2'},
     #     {'to':'node3', 'weight': NULL, 'pathName':'anselAdamsRoad1'}
     # ],
     # 'node3':[
@@ -46,7 +51,8 @@ graph = {
     # ],
     # 'cob1':[
     #     {'to':'node3', 'weight': NULL, 'pathName':'scholarsLane4'},
-    #     {'to':'node2', 'weight': NULL, 'pathName':'scholarsLane3'}
+    #     {'to':'node2', 'weight': NULL, 'pathName':'scholarsLane3'}.
+    #     {'to':'NodeSE', 'weight': NULL, 'pathName':'SE1WalkWay'}
     # ],
     # 'node2':[
     #     {'to':'library1', 'weight': NULL, 'pathName':'scholarsLane2'},
