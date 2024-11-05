@@ -25,7 +25,7 @@ graph = {
     ],
     'library1': [
         {'to': 'node1', 'weight': 358.09, 'pathName': 'scholarsLane1'},
-        {'to':'node2', 'weight': NULL, 'pathName':'scholarsLane2'}
+        {'to':'node2', 'weight': 348, 'pathName':'scholarsLane2'}
     ],
     'bsp': [
         {'to': 'acs', 'weight': 276.14, 'pathName': 'academicQuad'},
