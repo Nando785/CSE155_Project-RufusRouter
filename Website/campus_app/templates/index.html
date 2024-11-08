@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rufus Router</title>
+    <style>
+        body {
+            background-color: dodgerblue;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: rgb(255, 183, 0);
+        }
+        h1 {
+            color: rgb(255, 183, 0);
+        }
+        #preview {
+            display: none;
+            margin-top: 20px;
+            max-width: 100%;
+            max-height: 300px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Rufus Router App!</h1>
+    <p>This app will help you navigate your way around UC Merced with ease.</p>
+
+    <form action="/navigate" method="POST">
+        <p> Where are you currently? (Select an option: ) </p>
+        <select name="location">
+            <option value="ACS"> Arts and Computational Sciences (ACS) </option>
+            <option value="BSP"> Biomedical Sciences and Physics (BSP) </option>
+            <option value="COB1"> Classroom and Office Building 1 (COB 1) </option>
+            <option value="COB2"> Classroom and Office Building 2 (COB 2) </option>
+            <option value="Glacier"> Glacier Point </option>
+            <option value="Granite"> Granite Pass </option>
+            <option value="Library"> Kolligian Library (KL) </option>
+            <option value="SE1"> Science and Engineering 1 (SE 1) </option>
+            <option value="SE2"> Science and Engineering 2 (SE2) </option>
+            <option value="SSM"> Social Sciences and Management (SSM) </option>
+            <option value="SSB"> Student Services Building (SSB) </option>
+            <option value="SRE"> Sustainability Research and Engineering (SRE) </option>
+        </select>
+
+        <p> Where do you want to go? (Select an option: )</p>
+        <select name="destination">
+            <option value="ACS"> Arts and Computational Sciences (ACS) </option>
+            <option value="BSP"> Biomedical Sciences and Physics (BSP) </option>
+            <option value="COB1"> Classroom and Office Building 1 (COB 1) </option>
+            <option value="COB2"> Classroom and Office Building 2 (COB 2) </option>
+            <option value="Glacier"> Glacier Point </option>
+            <option value="Granite"> Granite Pass </option>
+            <option value="Library"> Kolligian Library (KL) </option>
+            <option value="SE1"> Science and Engineering 1 (SE 1) </option>
+            <option value="SE2"> Science and Engineering 2 (SE2) </option>
+            <option value="SSM"> Social Sciences and Management (SSM) </option>
+            <option value="SSB"> Student Services Building (SSB) </option>
+            <option value="SRE"> Sustainability Research and Engineering (SRE) </option>
+        </select>
+
+        <br><br>
+        <label for="CameraInput"> Upload a photo:</label>
+        <input type="file" id="CameraInput" accept="image/*" capture="camera"> 
+        <img id="Preview" alt="Image Preview"/>
+        <button type="submit">Rufus Route Me!</button>
+    </form>
+
+    <script>
+        const CameraInput = document.getElementById("CameraInput");
+        const Preview = document.getElementById("Preview");
+
+        CameraInput.addEventListener("change", function() {
+            const file = this.files[0]; // Corrected from this.file[0]
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    Preview.src = e.target.result;
+                    Preview.style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
