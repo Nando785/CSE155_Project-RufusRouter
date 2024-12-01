@@ -1,0 +1,121 @@
+
+<!--for when directed to COB1 page--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COB1</title> <!-- Title updated to COB1 -->
+    <style>
+        /* Body styles */
+        body {
+            background: linear-gradient(to right, #003366, #FFD700); /* Blue to Gold gradient background */
+            color: #fff; /* Make text color white for better contrast */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 2rem; /* Use relative font size for better scaling */
+            display: flex; /* Use flexbox to center content */
+            flex-direction: column; /* Stack content vertically */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            min-height: 100vh; /* Full viewport height */
+            box-sizing: border-box; /* Ensure padding and borders are included in element dimensions */
+        }
+
+        /* Dark overlay for better text contrast */
+        body::before {
+            content: ''; /* Empty content for the overlay */
+            position: absolute; /* Position the overlay */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent black overlay (30% opacity) */
+            z-index: -1; /* Put the overlay behind the content */
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            padding: 2rem; /* Use rem for responsive spacing */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background to make text stand out */
+            width: 100%; /* Ensure header spans the full width */
+        }
+
+        /* Main content styles */
+        main {
+            text-align: center;
+            padding: 2rem; /* Responsive padding */
+        }
+
+        /* Link styles */
+        a {
+            color: #00f; /* Link color */
+            font-size: 1.2rem; /* Slightly larger text for links */
+        }
+
+        /* Image container styles */
+        .image-container {
+            display: flex; /* Use flexbox to arrange images */
+            flex-direction: column; /* Stack images vertically */
+            align-items: center; /* Center images horizontally */
+            gap: 2rem; /* Space between images */
+            margin-top: 2rem; /* Margin between images and content above */
+        }
+
+        /* Image styles */
+        img {
+            width: 90%; /* Increase width to 90% of the parent container */
+            max-width: 800px; /* Maximum width to 800px for the images */
+            height: auto; /* Maintain the aspect ratio */
+        }
+
+        /* Flex container for map and text */
+        .map-container {
+            display: flex; /* Use flexbox to place map and text side by side */
+            align-items: center; /* Vertically align the items */
+            gap: 1rem; /* Add space between the map and text */
+            justify-content: center; /* Center the map and text */
+        }
+
+        /* Text next to the map styles */
+        .map-text {
+            font-size: 1.5rem; /* Set font size for the text */
+            color: #fff; /* Make the text color white for contrast */
+        }
+
+        /* Specific styles for the map image to make it smaller */
+        .map-container img {
+            width: 70%; /* Adjust width to make the map image bigger */
+            max-width: 600px; /* Maximum width of 600px for the map */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section of the page -->
+    <header>
+        <h1>Welcome to COB1</h1> <!-- Main heading of the COB1 page -->
+    </header>
+
+    <!-- Main content section -->
+    <main>
+        <p>The Classroom and Office Building (COB1) is one of two buildings where lectures are held they are key structures on the UC Merced campus. It houses classrooms, faculty offices, and meeting spaces.</p>
+
+        <!-- Image container for vertical stacking and centering -->
+        <div class="image-container">
+            <img src="Locations/COB1.jpg" alt="COB1 Building"> <!-- COB1 building image (above) -->
+            
+            <!-- Map container with "You are here" text next to the map -->
+            <div class="map-container">
+                <img src="Locations/cob1Map.jpg" alt="COB1 Map"> <!-- COB1 map image -->
+                <span class="map-text">You want to go here</span> <!-- Text next to the map -->
+            </div>
+        </div>
+
+        <a href="index.html">Go Back</a>
+    </main>
+</body>
+</html>
