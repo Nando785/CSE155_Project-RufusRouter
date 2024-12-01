@@ -3,44 +3,64 @@ Once Linux (Ubuntu Tested) Server is running and up to date:
 **WILL NEED TO UPDATE CODE FILE PATH NAMES**
 
  - Downlaod python, pip, venv, nginx, certbot, python3-certbot-nginx, ufw:
-sudo apt install python3 python3-pip python3.12-venv nginx certbot python3-certbot-nginx ufw
+
+sudo apt install python3 python3-pip python3-venv nginx certbot python3-certbot-nginx ufw git
+
 
 
  - Configure Web Server (Nginx) as a reverse proxy with parameters, then enable the 
    configurations.
+
 sudo nano /etc/nginx/sites-available/RufusRouter  **THIS WILL PUT YOU IN A TERMINAL TEXT EDITOR.  ADD THE LINES BELOW**
-**COPY AND PASTE**
+
+-----**COPY AND PASTE**-----
+
 server {
     listen 80;
-    server_name http://rufusrouter.duckdns.org  **ROUTERS DOMAIN NAME**;
+    server_name rufusrouter.duckdns.org;  **<--ROUTERS DOMAIN NAME**
 
     location / {
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+    location /static/ {
+        alias /home/dbaudhuin/CSE155_Project-RufusRouter/Website/campus_app/static/;  **<--FILE PATH TO BE FILLED IN**
     }
 }
-**COPY AND PASTE**
+
+-----**COPY AND PASTE**-----
+
 
 
  - Create symlink between available sites and the sites that are enabled, then test
-sudo ln -s /etc/nginx/sites-available/RufusRouter /etc/nginx/sites-enabled
+
+sudo ln -sf /etc/nginx/sites-available/RufusRouter /etc/nginx/sites-enabled
 sudo nginx -t
 sudo systemctl restart nginx
 
 
+
  - Get SSL Certificate and set it to autorenew:
-sudo certbot --nginx -d http://rufusrouter.duckdns.org  **ROUTERS DOMAIN NAME**
+
+sudo certbot --nginx -d rufusrouter.duckdns.org  **<--ROUTERS DOMAIN NAME**
 sudo systemctl status certbot.timer
 
 
+
  - Enable UFW firewall and allow needed ports
+
 sudo ufw allow 80
 sudo ufw allow 443
 sudo ufw enable
 
 
+
  - Set up DNS so that we can have a domain to route too (USING DUCK DNS).
+
 ps -ef | grep cr[o]n
 mkdir duckdns  **OUTSIDE OF PROJECT FOLDER**
 cd duckdns
@@ -50,21 +70,30 @@ crontab -e
 */5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1
 
 
+
  - Run script and make sure the logs say its all good:
+
  ./duck.sh
  cat duck.log
 
 
+
  - Enter project folder and make a virtual environment:
+
 python3 -m venv venv (The second "venv" is the name and is arbitrary.)  
 
      - To activate this virtual environment use: source venv/bin/activate
      - To deactivate this virtual environment use: deactivate
 
 
+
  - While the virtual environment is active (Confirmed by seeing "venv" near the path name of 
    the terminal) install the requirements needed:
+
 pip install -r requirements.txt
 
+
+
  - Run the project and make it accessible
+
 python3 project.py --host=0.0.0.0
