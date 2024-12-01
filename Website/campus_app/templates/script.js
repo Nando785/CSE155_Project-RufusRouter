@@ -47,5 +47,43 @@
         });
         
         
-        
-        
+
+
+     
+    /* Jordan Richard Code for how webpages would be displayed */
+
+    
+        // Event listener for the form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission behavior
+
+        // Get the selected destination value from the dropdown
+        const destination = document.getElementById('destination').value;
+
+        // Redirect based on the selected destination
+        switch (destination) {
+            case 'acs':
+                window.location.href = 'acs.html';  // Redirect to the ACS page
+                break;
+            case 'cob1':
+                window.location.href = 'cob1.html';  // Redirect to the COB 1 page
+                break;
+            case 'cob2':
+                window.location.href = 'cob2.html';  // Redirect to the COB 2 page
+                break;
+            case 'library1':
+                window.location.href = 'library1.html';  // Redirect to the KL page
+                break;
+            case 'se2':
+                window.location.href = 'se2.html';  // Redirect to the SE2 page
+                break;
+            case 'ssm':
+                window.location.href = 'ssm.html';  // Redirect to the SSM page
+                break;
+            case 'ssb':
+                window.location.href = 'ssb.html';  // Redirect to the SSB page
+                break;
+            default:
+                alert('Invalid selection!');  // Show an alert for unexpected values
+        }
+    }); 
