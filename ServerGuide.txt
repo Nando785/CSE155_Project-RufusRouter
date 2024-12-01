@@ -2,9 +2,15 @@ Once Linux (Ubuntu Tested) Server is running and up to date:
 
 **WILL NEED TO UPDATE CODE FILE PATH NAMES**
 
- - Downlaod python, pip, venv, nginx, certbot, python3-certbot-nginx, ufw:
+ - Downlaod python, pip, venv, nginx, certbot, python3-certbot-nginx, ufw, git, and screen:
 
-sudo apt install python3 python3-pip python3-venv nginx certbot python3-certbot-nginx ufw git
+sudo apt install python3 python3-pip python3-venv nginx certbot python3-certbot-nginx ufw git screen
+
+
+
+ - Clone git repository
+
+ git clone git@github.com:Nando785/CSE155_Project-RufusRouter.git
 
 
 
@@ -28,7 +34,7 @@ server {
         proxy_redirect off;
     }
     location /static/ {
-        alias /home/dbaudhuin/CSE155_Project-RufusRouter/Website/campus_app/static/;  **<--FILE PATH TO BE FILLED IN**
+        alias /home/dbaudhuin/CSE155_Project-RufusRouter/Website/campus_app/static/;  **<--FILE PATH TO BE FILLED IN (in the cloned git repo)**
     }
 }
 
@@ -51,10 +57,8 @@ sudo systemctl status certbot.timer
 
 
 
- - Enable UFW firewall and allow needed ports
+ - Enable UFW firewall
 
-sudo ufw allow 80
-sudo ufw allow 443
 sudo ufw enable
 
 
@@ -71,7 +75,7 @@ crontab -e
 
 
 
- - Run script and make sure the logs say its all good:
+ - Run script and make sure the logs say its all good ("OK"):
 
  ./duck.sh
  cat duck.log
@@ -79,8 +83,8 @@ crontab -e
 
 
  - Enter project folder and make a virtual environment:
-
-python3 -m venv venv (The second "venv" is the name and is arbitrary.)  
+cd **FILE PATH TO ROOT OF PROJECT FOLDER TO BE FILLED IN**
+python3 -m venv venv (The second "venv" is the name of the virtual environment and is arbitrary.)  
 
      - To activate this virtual environment use: source venv/bin/activate
      - To deactivate this virtual environment use: deactivate
@@ -94,6 +98,25 @@ pip install -r requirements.txt
 
 
 
+ - Start a screen so you can do more with your terminal
+
+screen
+
+
+
  - Run the project and make it accessible
 
 python3 project.py --host=0.0.0.0
+
+
+
+ - Press "CTRL + a" and then press "d" to detatch from the screen you made
+
+
+
+ - Start ngrok forwarding
+ ngrok http 5000
+
+
+
+  - At this point you are able to see incoming GET requests and the url that is generated for others to connect with.  It is temporary.
