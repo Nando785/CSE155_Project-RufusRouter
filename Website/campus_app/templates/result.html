@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark Detection Result</title>
+</head>
+<body>
+    <h1>Landmark Detection Results</h1>
+    
+    {% if image_description %}
+        <h3>Landmarks detected:</h3>
+        <ul>
+            {% for description in image_description %}
+                <li>{{ description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No landmarks detected.</p>
+    {% endif %}
+</body>
+</html>
