@@ -1,52 +1,65 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-import io  # For handling image data in memory
-from ML import detect_landmarks
-import dijkstra  # Assuming dijkstra.py is imported here
+from flask import Flask, request, render_template
+from google.cloud import vision
+import os
 
+# Initialize the Flask app
 app = Flask(__name__)
-CORS(app)
+
+# Set Google Vision API credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\Steven Murillo\Desktop\CSE Project 155 2\CSE155_Project-RufusRouter\Website\campus_app\JJSon\KeyForAPI.json"
+
+# Define possible campus locations for matching based on general labels
+CAMPUS_LOCATIONS = {
+    "Kolligian Library": "Library",
+    "Student Services Building": "SSB",
+    "Building": "General Building",  # Can match with "building", "office", etc.
+    "Urban design": "Urban Area",  # general urban term
+    "Facade": "Building Facade",  # buildings' exteriors
+    "City": "Campus City Area",  # general city term
+    "Campus": "Campus Area",  # match for "campus" label
+}
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def index():
+    # Render the home page with an upload form
+    return render_template("index.html")
 
-@app.route('/navigate', methods=['POST'])
+@app.route('/navigate', methods=["POST"])
 def navigate():
-    data = request.get_json()
-    location = data.get('location')
-    destination = data.get('destination')
+    # Ensure an image file was uploaded
+    if 'image' not in request.files:
+        return "Error: No image uploaded", 400
 
-    if not location or not destination:
-        return jsonify({'error': 'Invalid input'}), 400
+    image_file = request.files['image']
+    print(f"Image uploaded: {image_file.filename}")  # Debugging log to check image upload
+    image_bytes = image_file.read()
 
-    path = dijkstra.find_route(location, destination)
+    try:
+        # Initialize the Vision API client
+        client = vision.ImageAnnotatorClient()
+        image = vision.Image(content=image_bytes)
 
-    if not path:
-        return jsonify({'error': 'No path found'}), 404
+        # Perform label detection (focus on general labels)
+        label_response = client.label_detection(image=image)
+        labels = label_response.label_annotations
 
-    return jsonify({'path': path})
+        # Debugging: Print the full response
+        print("FULL API RESPONSE (Label Detection):")
+        for label in labels:
+            print(f"{label.description} (score: {label.score})")
 
-@app.route('/upload', methods=['POST'])
-def image_upload():
-    # Check if the file is part of the request
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
-    
-    file = request.files['file']
+        # Check if any labels match known locations
+        for label in labels:
+            if label.description in CAMPUS_LOCATIONS:
+                location_name = CAMPUS_LOCATIONS[label.description]
+                return render_template("result.html", location_name=location_name)
 
-    # If no file is selected
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+        # If no match is found, return "unknown"
+        return render_template("result.html", location_name="unknown")
 
-    # Read the file as a byte stream in memory
-    image_bytes = file.read()
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")  # Debugging log to catch API or file reading issues
+        return f"Error occurred: {str(e)}", 500
 
-    # Call the function to detect landmarks directly from the image bytes
-    image_description = detect_landmarks(image_bytes)
-
-    # Render the result template and pass the detected landmarks
-    return render_template('result.html', image_description=image_description)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

@@ -13,8 +13,8 @@
     <div class="container" id="container">
         <!-- Create dashboard container -->
         <div class="form-container sign-in">
-            <!-- Container for sign-in -->
-            <form action="/upload" method="POST" enctype="multipart/form-data">
+            <!-- Container for image upload form -->
+            <form action="/navigate" method="POST" enctype="multipart/form-data">
                 <p>Where are you currently? (Select an option:)</p>
                 <select name="location">
                     <option value="ACS">Arts and Computational Sciences (ACS)</option>
@@ -47,8 +47,8 @@
                     <option value="SRE">Sustainability Research and Engineering (SRE)</option>
                 </select>
 
-                <label for="CameraInput">Upload a photo:</label>
-                <input type="file" id="CameraInput" name="file" accept="image/*" capture="camera">
+                <label for="imageInput">Upload a photo:</label>
+                <input type="file" id="imageInput" name="image" accept="image/*">
                 <div class="image-preview-container">
                     <img id="Preview" alt="Image Preview"/>
                 </div>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <img src="{{ url_for('static', filename='img/bobcat.png') }}" />
+    <img src="{{ url_for('static', filename='img/bobcat.png') }}" alt="Bobcat logo"/>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
