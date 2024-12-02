@@ -135,3 +135,7 @@ html, body {
   .dropDownOptions {
     color: rgb(255, 183, 0);
   }
+
+  #map {
+    height: 100%;
+  }

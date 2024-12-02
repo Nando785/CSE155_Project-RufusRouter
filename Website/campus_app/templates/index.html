@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <!-- Map creation link -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+     <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="script.js" defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,11 +73,51 @@
           <div class="mapContainer">
             <!-- Map content here -->
                 <div class="optionsBox" id="mapOutput">
-                    <p id="result">INSERT MAP HERE</p>
+                    <div id="map">
+                        <script>
+                            // Map initialization
+                            var map = L.map('map').setView([37.3660, -120.4235], 17);
+
+                            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
+
+                            // DEBUG: COODRINATE CHECKER
+                            map.on('click', function(e) { 
+                                // Get the latitude and longitude from the event object
+                                var latlng = e.latlng; 
+                                // Create a marker at the clicked location 
+                                var marker = L.marker(latlng).addTo(map); 
+                                // Create a popup with the coordinates and bind it to the marker 
+                                marker.bindPopup("Coordinates: " + latlng.lat + ", " + latlng.lng).openPopup();
+                            });
+
+                            // Preset line coordinates
+                            var latlngs = [ 
+                            [37.364766, -120.426024], 
+                            [37.367208276470755, -120.42260706424715] 
+                            ];
+
+                            // Show line on map
+                            var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+                            mymap.fitBounds(path.getBounds());
+                        </script>
+                    </div>
                 </div>
             <!-- Map content end -->
           </div>
         </div>
       </div>
       
+      <!-- var latlngs = [
+      [37.364766, -120.426024],
+      [37.364771, -120.426030]
+  ];
+  var path = L.polyline.antPath(
+      latlngs,
+      {"delay":400,"dashArray":[10,20],"weight":5,"color":"black","paused":true,"reverse":false}
+  ).addTo(mymap);
+
+  mymap.addLayer(path); -->
+
 </html>
