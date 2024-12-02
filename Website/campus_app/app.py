@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-import dijkstra  # Assuming dijkstra.py is imported here
+import dijkstra 
 
 app = Flask(__name__)
 CORS(app)

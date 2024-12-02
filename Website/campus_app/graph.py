@@ -29,7 +29,7 @@ graph = {
     ],
     'bsp': [
         {'to': 'acs', 'weight': 276.14, 'pathName': 'academicQuad'},
-        {'to': 'se2', 'weight': 276.14, 'pathName': 'mineralKingBridge'}
+        {'to': 'NodeSE', 'weight': 276.14, 'pathName': 'mineralKingBridge'}
     ],
     'NodeSE': [
         {'to': 'cob1', 'weight': 490.52, 'pathName': 'SE1WalkWay'},
@@ -37,7 +37,7 @@ graph = {
         {'to': 'bsp', 'weight': 700, 'pathName': 'mineralKingBridge'}
     ],
     'se2':[
-        {'to':'bsp', 'weight': 165.31, 'pathName':'mineralKingBridge2'},
+        {'to':'NodeSE', 'weight': 165.31, 'pathName':'mineralKingBridge2'},
         {'to':'node3', 'weight': 474.24, 'pathName':'anselAdamsRoad1'}
     ],
     'node3':[

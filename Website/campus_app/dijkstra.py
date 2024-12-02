@@ -79,7 +79,7 @@ class Graph():
 g = Graph(len(graph))
 g.setup_graph(graph)
 
-startNode = 'SRE'
+startNode = 'se2'
 endNode = 'cob2'
 startIndex = g.vertex_map[startNode]
 endIndex = g.vertex_map[endNode]
