@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rufus Router</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style/style.css') }}">
 </head>
 <body>
     <h1>Welcome to Rufus Router!</h1>
@@ -55,9 +55,9 @@
                 </form>
             </div>
         </div>
-<img src="static/img/bobcat.png" id="bobcat"/> 
+<img src="{{ url_for('static', filename='img/bobcat.png') }}" />
         
-        <script>static/js/script.js</script>
-    </div>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</div>
 </body>
 </html>
