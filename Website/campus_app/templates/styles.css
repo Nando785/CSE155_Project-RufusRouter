@@ -16,14 +16,20 @@ html, body {
     height: 15%;
     background-color: #0F2D52; /* Just for visualization */
     display:flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
     color: rgb(255, 183, 0);
+  }
+
+  .separator {
+    height: 0.5%;
+    background-color: #DAA900;
   }
   
   .content {
     display: flex;
     flex-direction: row; /* Split content horizontally */
-    height: 95%;
+    height: 84.5%;
   }
   
   .userOptions, .mapContainer {
@@ -32,15 +38,23 @@ html, body {
   }
   
   .userOptions {
-    background-color: #005487;
+    background-color: white;
     display:flex;
     justify-content: center;    /* Center horizontally */
     align-items: center;        /* Center vertically */
   }
   
+  .rufusLogo {
+    width: 60%;
+    height: 60%;
+  }
+
+  .headerText {
+    font-family: open-sans;
+  }
+
   .mapContainer {
-    background-color: coral; /* Just for visualization */
-    background-color: #005487; 
+    background-color: white; 
     display: flex;
     justify-content: center;    /* Center horizontally */
     align-items: center;        /* Center vertically */
@@ -49,7 +63,7 @@ html, body {
   .optionsBox {
     height:75%;
     width: 75%;
-    background-color: #0091b3; /* Background color for visibility */
+    background-color: #005487; /* Background color for visibility */
     padding: 20px;       /* Padding inside the box */
     box-sizing: border-box; /* Ensure padding doesn't affect size */
     border-radius: 10px;  /* Optional: rounded corners */
