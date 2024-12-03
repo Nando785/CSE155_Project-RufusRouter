@@ -1,14 +1,7 @@
 from graph import graph, node_coordinates
-from flask import Flask, request, jsonify
+# from flask import Flask, request, jsonify
 import math
-import json
-
-
-# INPUT: 
-#   1) Source node/ position of user
-
-# EX: Starting from SRE, find path to COB2
-
+# import json
 
 # ===== Implement path finding algorithm here =====
 
@@ -91,32 +84,27 @@ class Graph():
         return coordinateList
 
 # Driver program
-g = Graph(len(graph))
-g.setup_graph(graph)
+# g = Graph(len(graph))
+# g.setup_graph(graph)
 
-# def runDijkstra(start, end):
-#     g = Graph(len(graph))
-#     g.setup_graph(graph)
-#     path = g.dijkstra(start, end)
-#     return path
-startNode = 'se2'
-endNode = 'cob2'
+# startNode = 'se2'
+# endNode = 'cob2'
 
-app = Flask(__name__)
-@app.route('/storage', methods=['POST'])
-def recieve_data():
-    global startNode, endNode
-    data = request.get_json()
-    startNode = data['location']
-    endNode = data['destination']
-    return jsonify({"Message" : "Success", "recievedData" : data})
+# app = Flask(__name__)
+# @app.route('/storage', methods=['POST'])
+# def recieve_data():
+#     global startNode, endNode
+#     data = request.get_json()
+#     startNode = data['location']
+#     endNode = data['destination']
+#     return jsonify({"Message" : "Success", "recievedData" : data})
 
-startIndex = g.vertex_map[startNode]
-endIndex = g.vertex_map[endNode]
+# startIndex = g.vertex_map[startNode]
+# endIndex = g.vertex_map[endNode]
 
-pathCoords = g.dijkstra(startIndex, endIndex)
+# pathCoords = g.dijkstra(startIndex, endIndex)
 
-print("Shortest path: ", pathCoords)
+# print("Shortest path: ", pathCoords)
 
 
 # ===== Debugging: Print all graph nodes and their connections =====

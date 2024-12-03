@@ -32,7 +32,7 @@
             // this is what briefly appears on the console
             console.log(savedData); // print saved data to console
 
-            fetch('http://localhost:5500/storage', {
+            fetch('http://localhost:5000/test', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,25 +63,25 @@
         // Redirect based on the selected destination
         switch (destination) {
             case 'acs':
-                window.location.href = 'acs.html';  // Redirect to the ACS page
+                window.location.href = '/acs';  // Redirect to the ACS page
                 break;
             case 'cob1':
-                window.location.href = 'cob1.html';  // Redirect to the COB 1 page
+                window.location.href = '/cob1.html';  // Redirect to the COB 1 page
                 break;
             case 'cob2':
-                window.location.href = 'cob2.html';  // Redirect to the COB 2 page
+                window.location.href = '/cob2.html';  // Redirect to the COB 2 page
                 break;
             case 'library1':
-                window.location.href = 'library1.html';  // Redirect to the KL page
+                window.location.href = '/library1.html';  // Redirect to the KL page
                 break;
             case 'se2':
-                window.location.href = 'se2.html';  // Redirect to the SE2 page
+                window.location.href = '/se2.html';  // Redirect to the SE2 page
                 break;
             case 'ssm':
-                window.location.href = 'ssm.html';  // Redirect to the SSM page
+                window.location.href = '/ssm.html';  // Redirect to the SSM page
                 break;
             case 'ssb':
-                window.location.href = 'ssb.html';  // Redirect to the SSB page
+                window.location.href = '/ssb.html';  // Redirect to the SSB page
                 break;
             default:
                 alert('Invalid selection!');  // Show an alert for unexpected values
