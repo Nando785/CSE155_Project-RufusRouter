@@ -1,16 +1,8 @@
 from flask import Flask, request, render_template
 from google.cloud import vision
 import os
-from heic2png import HEIC2PNG
-from PIL import Image
-import pillow_heif
-import io
-# from dotenv import load_dotenv
 
-# load_dotenv()
-# Initialize the Flask app
-# credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+
 
 
 app = Flask(__name__)
@@ -37,19 +29,7 @@ CAMPUS_LOCATIONS = {
 }
 
 
-# def convert_heic_to_PNG(heic_image_bytes):
-#     # Use pillow_heif to read the HEIC image
-#     heif_file = pillow_heif.read_heif(heic_image_bytes)
 
-#     # Convert the HEIC file to a PIL Image
-#     image = Image.open(io.BytesIO(heif_file))
-
-#     # Save the image as PNG in a BytesIO buffer
-#     byte_arr = io.BytesIO()
-#     image.save(byte_arr, format="PNG")
-#     byte_arr.seek(0)  # Reset the pointer to the beginning of the byte array
-
-#     return byte_arr.getvalue()
 
 @app.route('/')
 def index():
@@ -57,23 +37,7 @@ def index():
     return render_template("index.html")
 
 
-# @app.route("/upload", methods=["POST"])
-# def upload():
 
-#     print("Upload request received")
-#     file = request.files['file']
-#     print("File received")
-#     if file.filename.endswith('.heic'):
-#         print("File is HEIC")
-#         print("HEIC file detected")
-#         heic_image = file.read()
-#         print("HEIC image read")
-#         byte_arr = convert_heic_to_PNG(heic_image)
-#         print("HEIC converted to PNG")
-#         return byte_arr
-    
-#     file_bytes = file.read()
-#     return file_bytes
 
 @app.route('/navigate', methods=["POST"])
 def navigate():
