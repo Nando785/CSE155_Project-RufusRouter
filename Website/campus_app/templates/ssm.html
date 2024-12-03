@@ -2,6 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Fernando Rodriguez Martinez -->
+    <!-- Map creation link -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="../static/js/map.js"></script>
+    <!-- FRM-->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSM - Social Sciences and Management</title> <!-- Title updated to SSM -->
@@ -90,6 +101,11 @@
             max-width: 600px; /* Maximum width of 600px for the map */
             height: auto; /* Maintain aspect ratio */
         }
+
+        /*Fernando Rodriguez Martinez */
+        #map {
+            height:500px;
+        }
     </style>
 </head>
 <body>
@@ -113,7 +129,30 @@
             </div>
         </div>
 
-        <a href="index.html">Go Back</a>
+        <!-- Fernando Rodriguez Martinez -->
+        <div class="mapContainer">
+            <!-- Map content here -->
+                <div class="optionsBox" id="mapOutput">
+                    <div id="map">
+                        <script>
+                            const map = initMap();
+
+                            const latlngs = [
+                                {latitude: 37.36629164813181, longitude: -120.42154490947725},
+                                {latitude: 37.36720401785676, longitude: -120.42259633541109},
+                                {latitude: 37.36689704756419, longitude: -120.42305231094362},
+                                {latitude: 37.36650483154995, longitude: -120.42360484600069}
+                            ];
+
+                            addPath(map, latlngs);
+                        </script>
+                    </div>
+                </div>
+            <!-- Map content end -->
+          </div>
+
+        <a href="http://127.0.0.1:5000/">Go Back</a>
+        <!-- FRM -->
     </main>
 </body>
 </html>
