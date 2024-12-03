@@ -1,4 +1,4 @@
-from graph import graph
+from graph import graph, node_coordinates
 import math
 
 # INPUT: 
@@ -33,7 +33,7 @@ class Graph():
         dist[start] = 0
         sptSet = [False] * self.V
         predecessors = [-1] * self.V
-        path_names = [None] * self.V
+        path_nodes = [None] * self.V
 
         for _ in range(self.V):
             u = self.minDistance(dist, sptSet)
@@ -43,14 +43,18 @@ class Graph():
                 if (self.graph[u][v] > 0 and not sptSet[v] and dist[v] > dist[u] + self.graph[u][v]):
                     dist[v] = dist[u] + self.graph[u][v]
                     predecessors[v] = u
-                    path_names[v] = self.edge_map[(u,v)]
+                    path_nodes[v] = u
                     
         path = []
         current = end
         while current  != -1 and predecessors[current] != -1:
-            path.insert(0, path_names[current])
+            path.insert(0, current)
             current = predecessors[current]
-        return path
+            
+        reverse_map = {v: k for k, v in self.vertex_map.items()}
+        node_path = [reverse_map[node] for node in path]
+        path_coords = self.get_node_coordinates(node_path)
+        return path_coords
  
     def add_edge(self, from_vertex, to_vertex, weight, path_name):
         if from_vertex in self.vertex_map and to_vertex in self.vertex_map:
@@ -74,6 +78,13 @@ class Graph():
     def get_path_names(self, path):
         reverse_map = {v: k for k, v in self.vertex_map.items()}
         return [reverse_map[node] for node in path]
+    
+    def get_node_coordinates(self, nodeNames):
+        coordinateList = []
+        for node in node_coordinates:
+            if node in nodeNames:
+                coordinateList.append(node_coordinates[node])
+        return coordinateList
 
 # Driver program
 g = Graph(len(graph))
@@ -84,9 +95,9 @@ endNode = 'cob2'
 startIndex = g.vertex_map[startNode]
 endIndex = g.vertex_map[endNode]
 
-pathNames = g.dijkstra(startIndex, endIndex)
+pathCoords = g.dijkstra(startIndex, endIndex)
 
-print("Shortest path: ", pathNames)
+print("Shortest path: ", pathCoords)
 
 
 # ===== Debugging: Print all graph nodes and their connections =====
