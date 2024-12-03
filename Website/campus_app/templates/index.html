@@ -8,9 +8,10 @@
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+     <script src="map.js"></script>
 
      <link rel="stylesheet" type="text/css" href="styles.css">
-        <script src="script.js" defer></script>
+        <script src="../static/script.js" defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/x-icon" href="../static/UCM-MLogo.png">
@@ -63,10 +64,10 @@
                         </select>
                     </div>
 
-                    <label for="CameraInput" class="fileInputLabel"> 
+                    <!-- <label for="CameraInput" class="fileInputLabel"> 
                         <input type="file" id="CameraInput" class="cameraInput" accept="image/*" capture="camera">
                         Upload a photo:
-                    </label>
+                    </label> -->
                 
                     <button class="btn" type="submit">Rufus Route Me!</button>
                 </form>
@@ -74,45 +75,6 @@
                 </div>
             <!-- User options end -->
           </div>
-
-          <div class="mapContainer">
-            <!-- Map content here -->
-                <div class="optionsBox" id="mapOutput">
-                    <div id="map">
-                        <script>
-                            // Map initialization
-                            var map = L.map('map').setView([37.3660, -120.4235], 17);
-
-                            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            }).addTo(map);
-
-                            // DEBUG: COODRINATE CHECKER
-                            map.on('click', function(e) { 
-                                // Get the latitude and longitude from the event object
-                                var latlng = e.latlng; 
-                                // Create a marker at the clicked location 
-                                var marker = L.marker(latlng).addTo(map); 
-                                // Create a popup with the coordinates and bind it to the marker 
-                                marker.bindPopup("Coordinates: " + latlng.lat + ", " + latlng.lng).openPopup();
-                            });
-
-                            // Preset line coordinates
-                            var latlngs = [ 
-                            [37.36629164813181, -120.42154490947725], 
-                            [37.36720401785676, -120.42259633541109],
-                            [37.36689704756419, -120.42305231094362],
-                            [37.36650483154995, -120.42360484600069],
-                            [37.36697806054532, -120.42417347431183] 
-                            ];
-
-                            // Show line on map
-                            var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-                            mymap.fitBounds(path.getBounds());
-                        </script>
-                    </div>
-                </div>
-            <!-- Map content end -->
           </div>
         </div>
       </div>

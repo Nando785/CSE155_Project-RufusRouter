@@ -1,6 +1,5 @@
 # UC Merced full school map
 
-
 #   == NODE SYNTAX: ==
 #   <Node Name>: [
 #       { <Edge1> },

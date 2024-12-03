@@ -1,5 +1,8 @@
 from graph import graph, node_coordinates
+from flask import Flask, request, jsonify
 import math
+import json
+
 
 # INPUT: 
 #   1) Source node/ position of user
@@ -53,8 +56,9 @@ class Graph():
             
         reverse_map = {v: k for k, v in self.vertex_map.items()}
         node_path = [reverse_map[node] for node in path]
-        path_coords = self.get_node_coordinates(node_path)
-        return path_coords
+        return node_path
+        #path_coords = self.get_node_coordinates(node_path)
+        #return path_coords
  
     def add_edge(self, from_vertex, to_vertex, weight, path_name):
         if from_vertex in self.vertex_map and to_vertex in self.vertex_map:
@@ -90,8 +94,23 @@ class Graph():
 g = Graph(len(graph))
 g.setup_graph(graph)
 
+# def runDijkstra(start, end):
+#     g = Graph(len(graph))
+#     g.setup_graph(graph)
+#     path = g.dijkstra(start, end)
+#     return path
 startNode = 'se2'
 endNode = 'cob2'
+
+app = Flask(__name__)
+@app.route('/storage', methods=['POST'])
+def recieve_data():
+    global startNode, endNode
+    data = request.get_json()
+    startNode = data['location']
+    endNode = data['destination']
+    return jsonify({"Message" : "Success", "recievedData" : data})
+
 startIndex = g.vertex_map[startNode]
 endIndex = g.vertex_map[endNode]
 
