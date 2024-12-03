@@ -7,22 +7,16 @@
 </head>
 <body>
     <h1>Landmark Detection Results</h1>
-
-    {% if location_name %}
-        <h3>You are in: {{ location_name }}</h3>
-    {% else %}
-        <p>No matching landmark detected. Please try again with a different image.</p>
-    {% endif %}
-
+    
     {% if image_description %}
-        <h3>Additional detected landmarks:</h3>
+        <h3>Landmarks detected:</h3>
         <ul>
             {% for description in image_description %}
                 <li>{{ description }}</li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No additional landmarks detected.</p>
+        <p>No landmarks detected.</p>
     {% endif %}
 </body>
 </html>
