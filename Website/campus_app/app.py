@@ -5,11 +5,26 @@ from heic2png import HEIC2PNG
 from PIL import Image
 import pillow_heif
 import io
+# from dotenv import load_dotenv
+
+# load_dotenv()
 # Initialize the Flask app
+# credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+
+
 app = Flask(__name__)
 
-# Set Google Vision API credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\Steven Murillo\Desktop\CSE Project 155 2\CSE155_Project-RufusRouter\Website\campus_app\JJSon\KeyForAPI.json"
+
+
+# Get the current directory of the script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Build the relative path to your JSON file
+json_key_path = os.path.join(current_dir, 'JJSon', 'KeyForAPI.json')
+
+# Set the environment variable to the relative path
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json_key_path
 
 
 # Define possible campus locations for matching based on general labels
@@ -65,9 +80,6 @@ def navigate():
     # Ensure an image file was uploaded
     if 'image' not in request.files:
         return "Error: No image uploaded", 400
-    
-    
-
     
 
     image_file = request.files['image']

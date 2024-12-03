@@ -8,15 +8,11 @@
 <body>
     <h1>Landmark Detection Results</h1>
     
-    {% if image_description %}
-        <h3>Landmarks detected:</h3>
-        <ul>
-            {% for description in image_description %}
-                <li>{{ description }}</li>
-            {% endfor %}
-        </ul>
+    {% if location_name %}
+        <h3>Location detected:</h3>
+        <p>{{ location_name }}</p>
     {% else %}
-        <p>No landmarks detected.</p>
+        <p>No location detected.</p>
     {% endif %}
 </body>
 </html>
