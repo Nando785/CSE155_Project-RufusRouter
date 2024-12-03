@@ -9,8 +9,15 @@ import io
 app = Flask(__name__)
 
 # Set Google Vision API credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\Steven Murillo\Desktop\CSE Project 155 2\CSE155_Project-RufusRouter\Website\campus_app\JJSon\KeyForAPI.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\Steven Murillo\Desktop\CSE Project 155 2\CSE155_Project-RufusRouter\Website\campus_app\JJSon\KeyForAPI.json"
 
+
+# Set Google Vision API credentials
+GOOGLE_CREDENTIALS_PATH = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", 
+    r"C:\Users\Steven Murillo\Desktop\CSE Project 155 2\CSE155_Project-RufusRouter\Website\campus_app\JJSon\KeyForAPI.json")
+if not os.path.exists(GOOGLE_CREDENTIALS_PATH):
+    raise EnvironmentError(f"Google API credentials file not found: {GOOGLE_CREDENTIALS_PATH}")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_CREDENTIALS_PATH
 
 # Define possible campus locations for matching based on general labels
 CAMPUS_LOCATIONS = {
