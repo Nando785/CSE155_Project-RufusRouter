@@ -4,17 +4,23 @@ from flask_cors import CORS
 from dijkstra import *
 import json
 
+# DEBUG: Import test functions
+from test import returnNodes
+
 app = Flask(__name__)
 CORS(app)
 # Store the start and end points for the Dijkstra algorithm
 startNode = None
 endNode = None
 
+# DEBUG: test for return value
+temp = None
+
 storedOutput = [] ##
 
 @app.route('/storage', methods=['POST'])
 def receive_data():
-    global startNode, endNode, storedOutput
+    global startNode, endNode, storedOutput, temp
     data = request.get_json()
     
     # VERIFIED: START AND END LOCATIONS GRABBED CORRECTLY
@@ -24,6 +30,9 @@ def receive_data():
     
     # Create graph
     g = Graph(len(graph))
+    
+    # DEBUG: Run test functions for function return values
+    temp = returnNodes(startNode, endNode)
         
     # Trigger the Dijkstra algorithm with the provided start and end nodes
     # Convert node names to their respective indices
@@ -34,7 +43,7 @@ def receive_data():
     pathCoords = g.dijkstra(startIndex, endIndex)
     
     # Store output into variable to send to output endpoint
-    storedOutput = {"Message": "Success", "pathCoords": pathCoords}##
+    storedOutput = {"Message": "Success", "pathCoords": temp}##
 
     # Return the path coordinates as a JSON response
     return jsonify({"Message": "Success", "pathCoords": pathCoords})
@@ -46,7 +55,7 @@ def get_output():
     if storedOutput:
         return jsonify(storedOutput)
     else:
-        return jsonify({"1) Error": "No output stored", "3) Start Node": startNode, "4) End Node": endNode, "2) Path List": storedOutput}), 404
+        return jsonify({"1) Error": "No output stored", "3) Start Node": startNode, "4) End Node": endNode, "2) Path List": temp}), 404
 
 
 # Debug, allow dev to view storage endpoint contents
