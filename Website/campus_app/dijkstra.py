@@ -88,8 +88,13 @@ class Graph():
 # g = Graph(len(graph))
 # g.setup_graph(graph)
 
-# startNode = 'ssb'
-# endNode = 'cob2'
+# # Case 1
+# # startNode = 'cob2'
+# # endNode = 'acs'
+
+# # Case 2
+# startNode = "ssm"
+# endNode = "acs"
 
 # startIndex = g.vertex_map[startNode]
 # endIndex = g.vertex_map[endNode]
