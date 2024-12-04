@@ -1,4 +1,4 @@
-from graph import graph, node_coordinates
+from graph import *
 # from flask import Flask, request, jsonify
 import math
 # import json

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from graph import graph, node_coordinates
+from graph import *
 from flask_cors import CORS
-from dijkstra import Graph
+from dijkstra import *
 import json
 
 app = Flask(__name__)
@@ -17,19 +17,14 @@ def receive_data():
     global startNode, endNode, storedOutput
     data = request.get_json()
     
+    # VERIFIED: START AND END LOCATIONS GRABBED CORRECTLY
     # Get the location and destination from the request data
     startNode = data['location']
     endNode = data['destination']
     
     # Create graph
     g = Graph(len(graph))
-    
-    # Verify node existence
-    if startNode not in g.vertex_map:
-        return f"Error: Node {startNode} not found in graph", 400
-    if endNode not in g.vertex_map:
-        return f"Error: Node {endNode} not found in graph", 400
-    
+        
     # Trigger the Dijkstra algorithm with the provided start and end nodes
     # Convert node names to their respective indices
     startIndex = g.vertex_map[startNode]
@@ -38,6 +33,7 @@ def receive_data():
     # Find the path using Dijkstra
     pathCoords = g.dijkstra(startIndex, endIndex)
     
+    # Store output into variable to send to output endpoint
     storedOutput = {"Message": "Success", "pathCoords": pathCoords}##
 
     # Return the path coordinates as a JSON response
@@ -50,7 +46,8 @@ def get_output():
     if storedOutput:
         return jsonify(storedOutput)
     else:
-        return jsonify({"Message": "No output stored"}), 404
+        return jsonify({"1) Error": "No output stored", "3) Start Node": startNode, "4) End Node": endNode, "2) Path List": storedOutput}), 404
+
 
 # Debug, allow dev to view storage endpoint contents
 @app.route('/storage', methods=['GET'])

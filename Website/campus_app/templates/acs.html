@@ -131,23 +131,19 @@
                     <div id="map">
                         <script>
                             // Function to fetch local storage data and call the API
-                            function fetchRouteAndDisplay() {
-                                const savedData = JSON.parse(localStorage.getItem('userData'));
-                                if (!savedData) {
-                                    alert('No navigation data found. Please select locations from the main page.');
-                                    return;
-                                }
-                        
-                                fetch('http://localhost:5000/storage', {
-                                    method: 'POST',
+                            function fetchRouteAndDisplay() {                        
+                                fetch('http://localhost:5000/output', {
+                                    method: 'GET',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify(savedData),
                                 })
                                     .then(response => response.json())
                                     .then(data => {
                                         if (data.pathCoords) {
+                                            console.log("Path:");
+                                            console.log(data.pathCoords);
+                                            
                                             // Display the path on the map
                                             const map = initMap();
                                             const latlngs = data.pathCoords.map(coord => ({
@@ -157,9 +153,10 @@
                                             addPath(map, latlngs);
                                         } else {
                                             console.error('No path data received from the server.');
+                                            console.log(data);
                                         }
                                     })
-                                    .catch(error => console.error('Error:', error));
+                                    //.catch(error => console.error('Error:', error));
                             }
                         
                             // Run the function on page load
