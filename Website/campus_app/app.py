@@ -1,36 +1,63 @@
 from flask import Flask, render_template, request, jsonify
+from graph import graph, node_coordinates
+from flask_cors import CORS
+from dijkstra import Graph
 import json
-import dijkstra 
 
 app = Flask(__name__)
+CORS(app)
 # Store the start and end points for the Dijkstra algorithm
 startNode = None
 endNode = None
 
+storedOutput = [] ##
+
 @app.route('/storage', methods=['POST'])
 def receive_data():
-    global startNode, endNode
+    global startNode, endNode, storedOutput
     data = request.get_json()
     
     # Get the location and destination from the request data
     startNode = data['location']
     endNode = data['destination']
     
-    # Now, trigger the Dijkstra algorithm with the provided start and end nodes
+    # Create graph
+    g = Graph(len(graph))
+    
+    # Verify node existence
+    if startNode not in g.vertex_map:
+        return f"Error: Node {startNode} not found in graph", 400
+    if endNode not in g.vertex_map:
+        return f"Error: Node {endNode} not found in graph", 400
+    
+    # Trigger the Dijkstra algorithm with the provided start and end nodes
     # Convert node names to their respective indices
-    startIndex = dijkstra.g.vertex_map[startNode]
-    endIndex = dijkstra.g.vertex_map[endNode]
+    startIndex = g.vertex_map[startNode]
+    endIndex = g.vertex_map[endNode]
 
     # Find the path using Dijkstra
-    pathCoords = dijkstra.g.dijkstra(startIndex, endIndex)
+    pathCoords = g.dijkstra(startIndex, endIndex)
+    
+    storedOutput = {"Message": "Success", "pathCoords": pathCoords}##
 
     # Return the path coordinates as a JSON response
     return jsonify({"Message": "Success", "pathCoords": pathCoords})
 
+# Debug, store dijkstra output in output endpoint
+@app.route('/output', methods=['GET'])
+def get_output():
+    #Retrieve and return the stored result
+    if storedOutput:
+        return jsonify(storedOutput)
+    else:
+        return jsonify({"Message": "No output stored"}), 404
+
+# Debug, allow dev to view storage endpoint contents
 @app.route('/storage', methods=['GET'])
 def get_storage_data():
     return jsonify({"startNode": startNode, "endNode": endNode})
 
+# Route for the home page
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -40,27 +67,32 @@ def home():
 def acs():
     return render_template('acs.html')
 
-# Add other routes as needed
+# Route for the cob1 page
 @app.route('/cob1')
 def cob1():
     return render_template('cob1.html')
 
+# Route for the cob2 page
 @app.route('/cob2')
 def cob2():
     return render_template('cob2.html')
 
+# Route for the library1 page
 @app.route('/library1')
 def library1():
     return render_template('library1.html')
 
+# Route for the se2 page
 @app.route('/se2')
 def se2():
     return render_template('se2.html')
 
+# Route for the ssm page
 @app.route('/ssm')
 def ssm():
     return render_template('ssm.html')
 
+# Route for the ssb page
 @app.route('/ssb')
 def ssb():
     return render_template('ssb.html')

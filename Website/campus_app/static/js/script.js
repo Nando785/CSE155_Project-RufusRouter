@@ -15,7 +15,8 @@
     
 
         document.getElementById('navigation-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent form from submitting traditionally
+            // Prevent form from submitting traditionally
+            e.preventDefault();
 
             // Get values from the dropdowns
             var location = document.getElementById('location').value;
@@ -27,11 +28,16 @@
                 destination: destination
             };
 
+            // Store data in local storage
             localStorage.setItem('userData', JSON.stringify(formData));
+            
+            // Grab data from local storage
             const savedData = JSON.parse(localStorage.getItem('userData'));
+
             // this is what briefly appears on the console
             console.log(savedData); // print saved data to console
 
+            // Store data in storage endpoint?
             fetch('http://localhost:5000/storage', {
                 method: 'POST',
                 headers: {
