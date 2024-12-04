@@ -1,7 +1,4 @@
 from graph import graph, node_coordinates
-# from flask import Flask, request, jsonify
-import math
-# import json
 
 # ===== Implement path finding algorithm here =====
 
@@ -47,11 +44,15 @@ class Graph():
             path.insert(0, current)
             current = predecessors[current]
             
+        # Insert original node
+        if path[0] != start:
+            path.insert(0,start)
+            
         reverse_map = {v: k for k, v in self.vertex_map.items()}
         node_path = [reverse_map[node] for node in path]
-        return node_path
-        #path_coords = self.get_node_coordinates(node_path)
-        #return path_coords
+        # return node_path
+        path_coords = self.get_node_coordinates(node_path)
+        return path_coords
  
     def add_edge(self, from_vertex, to_vertex, weight, path_name):
         if from_vertex in self.vertex_map and to_vertex in self.vertex_map:
@@ -83,21 +84,12 @@ class Graph():
                 coordinateList.append(node_coordinates[node])
         return coordinateList
 
-# Driver program
+# ===== Debugging: Test Dijkstra algorithm for correctness =====
 # g = Graph(len(graph))
 # g.setup_graph(graph)
 
-# startNode = 'se2'
+# startNode = 'ssb'
 # endNode = 'cob2'
-
-# app = Flask(__name__)
-# @app.route('/storage', methods=['POST'])
-# def recieve_data():
-#     global startNode, endNode
-#     data = request.get_json()
-#     startNode = data['location']
-#     endNode = data['destination']
-#     return jsonify({"Message" : "Success", "recievedData" : data})
 
 # startIndex = g.vertex_map[startNode]
 # endIndex = g.vertex_map[endNode]
@@ -105,7 +97,6 @@ class Graph():
 # pathCoords = g.dijkstra(startIndex, endIndex)
 
 # print("Shortest path: ", pathCoords)
-
 
 # ===== Debugging: Print all graph nodes and their connections =====
 # for node in graph:

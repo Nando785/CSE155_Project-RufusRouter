@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from graph import *
 from flask_cors import CORS
-from dijkstra import *
+from dijkstra import Graph
+from graph import graph
 import json
 
 # DEBUG: Import test functions
@@ -14,14 +14,14 @@ startNode = None
 endNode = None
 
 # DEBUG: test for return value
-temp1 = None
-temp2 = []
+# temp1 = None
+# temp2 = []
 
 storedOutput = [] ##
 
 @app.route('/storage', methods=['POST'])
 def receive_data():
-    global startNode, endNode, storedOutput, temp1, temp2
+    global startNode, endNode, storedOutput#, temp1, temp2
     data = request.get_json()
     
     # VERIFIED: START AND END LOCATIONS GRABBED CORRECTLY
@@ -31,10 +31,11 @@ def receive_data():
     
     # Create graph
     g = Graph(len(graph))
+    g.setup_graph(graph)
     
     # DEBUG: Run test functions for function return values
-    temp1 = returnNodes(startNode, endNode)
-    temp2 = returnSomeList()
+    # temp1 = returnNodes(startNode, endNode)
+    # temp2 = returnSomeList()
         
     # Trigger the Dijkstra algorithm with the provided start and end nodes
     # Convert node names to their respective indices
@@ -45,7 +46,8 @@ def receive_data():
     pathCoords = g.dijkstra(startIndex, endIndex)
     
     # Store output into variable to send to output endpoint
-    storedOutput = {"Message": "Success", "pathCoords": temp}##
+    #storedOutput = {"1) Message": "Success", "4) pathCoords": pathCoords, "2) startNode": startNode, "3) endNode":endNode}##
+    storedOutput = {"coords":pathCoords}
 
     # Return the path coordinates as a JSON response
     return jsonify({"Message": "Success", "pathCoords": pathCoords})
@@ -54,12 +56,12 @@ def receive_data():
 @app.route('/output', methods=['GET'])
 def get_output():
     # DEBUG: store test functions
-    return jsonify({"1) startNode":startNode, "2) endNode":endNode, "3) returnNodes output":temp1, "4) returnSomeList output":temp2}), 404
-    #Retrieve and return the stored result
-    # if storedOutput:
-    #     return jsonify(storedOutput)
-    # else:
-    #     return jsonify({"1) Error": "No output stored", "3) Start Node": startNode, "4) End Node": endNode, "2) Path List": storedOutput}), 404
+    # return jsonify({"1) startNode":startNode, "2) endNode":endNode, "3) returnNodes output":temp1, "4) returnSomeList output":temp2}), 404
+    # Retrieve and return the stored result
+    if storedOutput:
+        return jsonify(storedOutput)
+    else:
+        return jsonify({"1) Error": "No output stored", "3) Start Node": startNode, "4) End Node": endNode, "2) Path List": storedOutput}), 404
 
 
 # Debug, allow dev to view storage endpoint contents
