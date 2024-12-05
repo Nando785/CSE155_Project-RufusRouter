@@ -79,22 +79,24 @@ class Graph():
     
     def get_node_coordinates(self, nodeNames):
         coordinateList = []
-        for node in node_coordinates:
-            if node in nodeNames:
+        # Iterate through the nodeNames list to preserve the order
+        for node in nodeNames:
+            if node in node_coordinates:
                 coordinateList.append(node_coordinates[node])
         return coordinateList
+
 
 # ===== Debugging: Test Dijkstra algorithm for correctness =====
 # g = Graph(len(graph))
 # g.setup_graph(graph)
 
 # # Case 1
-# # startNode = 'cob2'
-# # endNode = 'acs'
+# startNode = 'cob2'
+# endNode = 'acs'
 
 # # Case 2
-# startNode = "ssm"
-# endNode = "acs"
+# # startNode = "ssm"
+# # endNode = "acs"
 
 # startIndex = g.vertex_map[startNode]
 # endIndex = g.vertex_map[endNode]
