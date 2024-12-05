@@ -23,15 +23,18 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json_key_path
 
 # Matching what the API sees in pictures sent to certain buildings on campus
 CAMPUS_LOCATIONS = {
-    "Moths and butterflies" : "ssb",
-    "Leisure" : "ssb",
-    "Arthropod" : "ssb",
-    "Pollinator" : "ssb",
-    "Tower block" :  "library1",
-    "Asphalt" : "ssb",
-    "Tail" : "cob2",
-    "Terrestial animal": "cob2",
-    "Aluminium"  : "ssb",
+    "Moths and butterflies" : "Student Services Building",
+    "Leisure" : "Student Services Building",
+    "Arthropod" : "Student Services Building",
+    "Pollinator" : "Student Services Building",
+    "Symmetry" : "New Beginnings Statue",
+    "Tower block" :  "Kolligian Library",
+    "Sculpture" : "New Beginnings Statue",
+    "Asphalt" : "Student Services Building",
+    "Tail" : "Classroom and Office Building #2",
+    "Terrestial animal": "Classroom and Office Building #2",
+    "Aluminium"  : "Student Services Building",
+
 }
 
 
