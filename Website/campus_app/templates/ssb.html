@@ -129,21 +129,48 @@
                 <div class="optionsBox" id="mapOutput">
                     <div id="map">
                         <script>
-                            const map = initMap();
+                            // Function to fetch local storage data and call the API
+                            function fetchRouteAndDisplay() {                        
+                                fetch('http://localhost:5000/output', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.coords) {
+                                            console.log("Data retrieved:", data.coords);
+                                            
+                                            // Initialize map
+                                            const map = initMap();
 
-                            const latlngs = [
-                                {latitude: 37.36629164813181, longitude: -120.42154490947725},
-                                {latitude: 37.36720401785676, longitude: -120.42259633541109},
-                                {latitude: 37.36689704756419, longitude: -120.42305231094362},
-                                {latitude: 37.36650483154995, longitude: -120.42360484600069}
-                            ];
+                                            // Parse coordinates from JSON
+                                            const latlngs = data.coords.map(coord => ({
+                                                latitude: coord[0],
+                                                longitude: coord[1]
+                                            }));
 
-                            addPath(map, latlngs);
+                                            console.log("Final coordinate set:\n", latlngs)
+                                            // Add path to map
+                                            addPath(map, latlngs);
+                                        } else {
+                                            console.error('No path data received from the server.');
+                                            console.log("data.coods (Full Content):\n", data.coords)
+                                            console.log("data.coords[0]:\n",data.coords[0]);
+                                            console.log("data.coords[0][0]:\n",data.coords[0][0]);
+                                        }
+                                    })
+                                    //.catch(error => console.error('Error:', error));
+                            }
+                        
+                            // Run the function on page load
+                            document.addEventListener('DOMContentLoaded', fetchRouteAndDisplay);
                         </script>
                     </div>
                 </div>
             <!-- Map content end -->
-          </div>
+        </div>
 
         <a href="http://127.0.0.1:5000/">Go Back</a>
         <!-- FRM -->
