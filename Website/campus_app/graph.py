@@ -1,4 +1,4 @@
-# UC Merced full school map
+# UC Merced partial school map
 
 #   == NODE SYNTAX: ==
 #   <Node Name>: [

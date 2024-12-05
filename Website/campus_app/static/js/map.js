@@ -7,7 +7,7 @@ function initMap(){
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // //DEBUG: PRINT ALL NODES AND THEIR COORDINATES
+    // // === DEBUG: PRINT ALL NODES AND THEIR COORDINATES ===
     // // Node coordinates with respective names
     // var node_coordinates = {
     //     'se2': [37.36629164813181, -120.42154490947725],
@@ -36,7 +36,7 @@ function initMap(){
     //     marker.bindPopup(popupContent); // Bind the popup to the marker
     // }
 
-    // // DEBUG: COODRINATE CHECKER
+    // // === DEBUG: COODRINATE CHECKER ===
     // map.on('click', function(e) { 
     //     // Get the latitude and longitude from the event object
     //     var latlng = e.latlng; 

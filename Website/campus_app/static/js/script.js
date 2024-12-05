@@ -34,10 +34,11 @@
             // Grab data from local storage
             const savedData = JSON.parse(localStorage.getItem('userData'));
 
-            // this is what briefly appears on the console
-            console.log(savedData); // print saved data to console
+            // Print saved data to console
+            // This is what briefly appears on the console
+            console.log(savedData);
 
-            // Store data in storage endpoint?
+            // Store data in storage endpoint
             fetch('http://localhost:5000/storage', {
                 method: 'POST',
                 headers: {

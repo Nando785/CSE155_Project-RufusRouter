@@ -140,6 +140,7 @@
                                     .then(response => response.json())
                                     .then(data => {
                                         if (data.coords) {
+                                            // DEBUG: Print endpoint contents
                                             console.log("Data retrieved:", data.coords);
                                             
                                             // Initialize map
@@ -150,18 +151,16 @@
                                                 latitude: coord[0],
                                                 longitude: coord[1]
                                             }));
-
+                                            // DEBUG: print data to console
                                             console.log("Final coordinate set:\n", latlngs)
+
                                             // Add path to map
                                             addPath(map, latlngs);
                                         } else {
                                             console.error('No path data received from the server.');
-                                            console.log("data.coods (Full Content):\n", data.coords)
-                                            console.log("data.coords[0]:\n",data.coords[0]);
-                                            console.log("data.coords[0][0]:\n",data.coords[0][0]);
                                         }
                                     })
-                                    //.catch(error => console.error('Error:', error));
+                                    .catch(error => console.error('Error:', error));
                             }
                         
                             // Run the function on page load
