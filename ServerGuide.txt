@@ -1,4 +1,4 @@
-Once Linux (Ubuntu Tested) Server is running and up to date:
+Once Linux (Ubuntu Tested) Server is running and up to date (USING UNPAID NGROK WITH CHANGING URLS):
 
 **WILL NEED TO UPDATE CODE FILE PATH NAMES**
 
@@ -40,7 +40,7 @@ server {
 
 -----**COPY AND PASTE**-----
 
-
+**Press "CTRL + x" to initiate save, then press "y", then press "Enter".**
 
  - Create symlink between available sites and the sites that are enabled, then test
 
@@ -115,8 +115,44 @@ python3 project.py --host=0.0.0.0
 
 
  - Start ngrok forwarding
+
  ngrok http 5000
 
 
 
-  - At this point you are able to see incoming GET requests and the url that is generated for others to connect with.  It is temporary.
+ - At this point you are able to see incoming GET requests and the url that is generated for others to connect with.  It is temporary.
+
+
+
+***QUALITY OF LIFE STUFF***
+
+ - Make run shell script:
+
+touch run.sh
+nano run.sh
+
+-----**COPY AND PASTE**-----
+
+#!/bin/bash
+clear
+cd /path/to/your/projectGitHub  **<--FILE PATH TO BE FILLED IN**
+source venv/bin/activate
+screen -S flask_app -d -m bash -c 'python3 app.py --host=0.0.0.0'
+echo "Flask app started in a screen session named 'flask_app'."
+echo "To reattach to the Flask app session, use: screen -r flask_app"
+screen -S ngrok -d -m bash -c 'ngrok http 5000'
+echo "ngrok started in a screen session named 'ngrok'."
+echo "To reattach to the ngrok session, use: screen -r ngrok"
+sleep 2
+NGROK_URL=$(curl --silent http://127.0.0.1:4040/api/tunnels | grep -o '"public_url":"[^"]*' | cut -d'"' -f4)
+echo "ngrok is running at $NGROK_URL"
+echo "Your application is now accessible via the ngrok URL."
+echo "To detach from a screen session, press 'Ctrl + a' then 'd'."
+
+-----**COPY AND PASTE**-----
+
+**Press "CTRL + x" to initiate save, then press "y", then press "Enter".**
+
+
+
+ - You can now run the server with a single shell script, runable by using "./run.sh"
