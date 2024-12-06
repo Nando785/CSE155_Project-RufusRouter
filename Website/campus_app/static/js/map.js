@@ -53,8 +53,13 @@ function addPath(map, pathCoordinates){
     
     // Show line on map
     const latlngs = pathCoordinates.map(coord => [coord.latitude, coord.longitude]);
+    // DEBUG: Print final coodinate set to console
     console.log("Pushing to map: \n", latlngs)
+    // Add market at destination
+    var marker = L.marker(latlngs[latlngs.length-1]).addTo(map); 
+    // Display lines on map
     L.polyline(latlngs, {color: 'red'}).addTo(map);
+    // Change map scale to fit line
     map.fitBounds(latlngs);
 }
 

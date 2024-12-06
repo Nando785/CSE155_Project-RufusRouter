@@ -22,6 +22,10 @@ class Graph():
         return min_index
  
     def dijkstra(self, start, end):
+        if start == end:
+            reverse_map = {v: k for k, v in self.vertex_map.items()}
+            return self.get_node_coordinates([reverse_map[start], reverse_map[end]])
+        
         dist = [float('inf')] * self.V
         dist[start] = 0
         sptSet = [False] * self.V
@@ -90,13 +94,13 @@ class Graph():
 # g = Graph(len(graph))
 # g.setup_graph(graph)
 
-# # Case 1
-# startNode = 'cob2'
-# endNode = 'acs'
+# # # Case 1
+# # startNode = 'cob2'
+# # endNode = 'acs'
 
-# # Case 2
-# # startNode = "ssm"
-# # endNode = "acs"
+# # # Case 2
+# startNode = "acs"
+# endNode = "acs"
 
 # startIndex = g.vertex_map[startNode]
 # endIndex = g.vertex_map[endNode]

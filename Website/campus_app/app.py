@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from dijkstra import Graph
 from graph import graph
-from google.cloud import vision
-import os
+# from google.cloud import vision
+# import os
 
 app = Flask(__name__)
 CORS(app)
@@ -99,87 +99,87 @@ if __name__ == '__main__':
 
 # ====== MACHINE LEARNING CODE ======
 
-# Sets the currently directory to Website/campus_app/app.py
-current_dir = os.path.dirname(os.path.abspath(__file__))
+# # Sets the currently directory to Website/campus_app/app.py
+# current_dir = os.path.dirname(os.path.abspath(__file__))
 
 
-# Sets the path for the JSON file which I have stored in a folder JJSon
-json_key_path = os.path.join(current_dir, 'JJSon', 'KeyForAPI.json')
+# # Sets the path for the JSON file which I have stored in a folder JJSon
+# json_key_path = os.path.join(current_dir, 'JJSon', 'KeyForAPI.json')
 
 
-# Use Google SDK to set up the credentials that allow API to be used and functional 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json_key_path
+# # Use Google SDK to set up the credentials that allow API to be used and functional 
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json_key_path
 
 
 
 
-# Matching what the API sees in pictures sent to certain buildings on campus
-CAMPUS_LOCATIONS = {
-    "Moths and butterflies" : "ssb",
-    "Leisure" : "ssb",
-    "Arthropod" : "ssb",
-    "Pollinator" : "ssb",
-    "Tower block" :  "library1",
-    "Asphalt" : "ssb",
-    "Tail" : "cob2",
-    "Terrestial animal": "cob2",
-    "Aluminium"  : "ssb",
-}
+# # Matching what the API sees in pictures sent to certain buildings on campus
+# CAMPUS_LOCATIONS = {
+#     "Moths and butterflies" : "ssb",
+#     "Leisure" : "ssb",
+#     "Arthropod" : "ssb",
+#     "Pollinator" : "ssb",
+#     "Tower block" :  "library1",
+#     "Asphalt" : "ssb",
+#     "Tail" : "cob2",
+#     "Terrestial animal": "cob2",
+#     "Aluminium"  : "ssb",
+# }
 
-@app.route('/navigate', methods=["POST"])
-def navigate():
-    # Check for the target location value from the dropdown
-    dropdown_location = request.form.get('location')  # 'location' is the name of the dropdown in HTML
+# @app.route('/navigate', methods=["POST"])
+# def navigate():
+#     # Check for the target location value from the dropdown
+#     dropdown_location = request.form.get('location')  # 'location' is the name of the dropdown in HTML
 
-    # Check if an image is uploaded
-    image_file = request.files.get('image')  # None if no file uploaded
+#     # Check if an image is uploaded
+#     image_file = request.files.get('image')  # None if no file uploaded
 
-    if image_file and image_file.filename:  # If an image is uploaded
-        image_bytes = image_file.read()
+#     if image_file and image_file.filename:  # If an image is uploaded
+#         image_bytes = image_file.read()
 
-        try:
-            # Run the ML code with the uploaded image
-            client = vision.ImageAnnotatorClient()
-            image = vision.Image(content=image_bytes)
+#         try:
+#             # Run the ML code with the uploaded image
+#             client = vision.ImageAnnotatorClient()
+#             image = vision.Image(content=image_bytes)
 
-            # Perform label detection
-            label_response = client.label_detection(image=image)
-            labels = label_response.label_annotations
+#             # Perform label detection
+#             label_response = client.label_detection(image=image)
+#             labels = label_response.label_annotations
 
-            # Debugging: Print the full response
-            print("FULL API RESPONSE (Label Detection):")
-            for label in labels:
-                print(f"{label.description} (score: {label.score})")
+#             # Debugging: Print the full response
+#             print("FULL API RESPONSE (Label Detection):")
+#             for label in labels:
+#                 print(f"{label.description} (score: {label.score})")
 
-            # Check if any labels match a campus location
-            for label in labels:
-                if label.description in CAMPUS_LOCATIONS:
-                    location_name = CAMPUS_LOCATIONS[label.description]
-                    # return render_template("result.html", location_name=location_name)
-                    return jsonify({"location": location_name}), 404
+#             # Check if any labels match a campus location
+#             for label in labels:
+#                 if label.description in CAMPUS_LOCATIONS:
+#                     location_name = CAMPUS_LOCATIONS[label.description]
+#                     # return render_template("result.html", location_name=location_name)
+#                     return jsonify({"location": location_name}), 404
 
-            # Perform text detection
-            text_response = client.text_detection(image=image)
-            texts = text_response.text_annotations
+#             # Perform text detection
+#             text_response = client.text_detection(image=image)
+#             texts = text_response.text_annotations
 
-            # If no match is found
-            # return render_template("result.html", location_name="Unknown Location")
-            return jsonify({"location": location_name}), 404
+#             # If no match is found
+#             # return render_template("result.html", location_name="Unknown Location")
+#             return jsonify({"location": location_name}), 404
 
-        except Exception as e:
-            print(f"Error occurred: {str(e)}")
-            return f"Error occurred: {str(e)}", 500
+#         except Exception as e:
+#             print(f"Error occurred: {str(e)}")
+#             return f"Error occurred: {str(e)}", 500
 
-    elif dropdown_location:  # If no image is uploaded but dropdown has a value
-        # if dropdown_location in CAMPUS_LOCATIONS.values():
-        #     # Validate and return the dropdown location
-        #     return render_template("result.html", location_name=dropdown_location)
-        # else:
-        #     # If the dropdown value does not match any location
-            # return render_template("result.html", location_name="Invalid Location")
-            return jsonify({"location": dropdown_location}), 404
+#     elif dropdown_location:  # If no image is uploaded but dropdown has a value
+#         # if dropdown_location in CAMPUS_LOCATIONS.values():
+#         #     # Validate and return the dropdown location
+#         #     return render_template("result.html", location_name=dropdown_location)
+#         # else:
+#         #     # If the dropdown value does not match any location
+#             # return render_template("result.html", location_name="Invalid Location")
+#             return jsonify({"location": dropdown_location}), 404
 
-    else:
-        # If neither an image nor a dropdown value is provided
-        # return "Error: No input provided. Please upload an image or select a location.", 400
-        return jsonify({"location": "No location found"}), 404
+#     else:
+#         # If neither an image nor a dropdown value is provided
+#         # return "Error: No input provided. Please upload an image or select a location.", 400
+#         return jsonify({"location": "No location found"}), 404
