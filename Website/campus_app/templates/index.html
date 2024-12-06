@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Map creation link -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-     <script src="../static/js/map.js"></script>
-
-     <link rel="stylesheet" type="text/css" href="../static/css/styles.css  ">
+        <!-- CSS Styling and Javascript Functionality links -->
+        <link rel="stylesheet" type="text/css" href="../static/css/styles.css  ">
         <script src="../static/js/script.js" defer></script>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Tab customization -->
         <link rel="icon" type="image/x-icon" href="../static/images/UCM-MLogo.png">
         <title>Rufus Router</title>
     </head>
-    <div class="page">
 
+    <div class="page">
         <div class="header">
             <!-- Header content here -->
             <div class="logo">
@@ -32,6 +27,7 @@
             <!-- Header content end-->
         </div>
 
+        <!-- Yellow UCM Line -->
         <div class="separator">
         </div>
 
@@ -64,10 +60,10 @@
                         </select>
                     </div>
 
-                    <label for="CameraInput" class="fileInputLabel"> 
+                    <!-- <label for="CameraInput" class="fileInputLabel"> 
                         <input type="file" id="CameraInput" class="cameraInput" accept="image/*" capture="camera">
                         Upload a photo:
-                    </label>
+                    </label> -->
                 
                     <button class="btn" type="submit">Rufus Route Me!</button>
                 </form>

@@ -4,85 +4,116 @@ from graph import graph, node_coordinates
 
 class Graph():
  
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = [[0 for _ in range(vertices)] for _ in range(vertices)]
-        self.vertex_map = {}
-        self.edge_map = {}
- 
-    def minDistance(self, dist, sptSet):
-        min = float('inf')
-        min_index = -1
-
-        for v in range(self.V):
-            if dist[v] < min and not sptSet[v]:
-                min = dist[v]
-                min_index = v
-
-        return min_index
- 
-    def dijkstra(self, start, end):
-        if start == end:
-            reverse_map = {v: k for k, v in self.vertex_map.items()}
-            return self.get_node_coordinates([reverse_map[start], reverse_map[end]])
+    def __init__(self, nodeCount):
+        # Initialize graph with node count
+        self.nodeCount = nodeCount
         
-        dist = [float('inf')] * self.V
-        dist[start] = 0
-        sptSet = [False] * self.V
-        predecessors = [-1] * self.V
-        path_nodes = [None] * self.V
+        # Create an index map and adjacency matrix
+        self.nodeIndices = {}
+        self.graph = []
+        
+        # Populate adjacency matrix (size nodeCount x nodeCount)
+        for i in range(nodeCount):
+            row = [0] * nodeCount
+            self.graph.append(row)
+ 
+    # Find unvisited node with smallest distance
+    def minDistance(self, minDistances, nodesVisited):
+        # Set initial minimum distance to inf, min node to none
+        min = float('inf')
+        minIndex = -1
 
-        for _ in range(self.V):
-            u = self.minDistance(dist, sptSet)
-            sptSet[u] = True
+        # Iterate though all nodes, select unvisited node with smallest distance
+        for node in range(self.nodeCount):
+            if minDistances[node] < min and not nodesVisited[node]:
+                min = minDistances[node]
+                minIndex = node
 
-            for v in range(self.V):
-                if (self.graph[u][v] > 0 and not sptSet[v] and dist[v] > dist[u] + self.graph[u][v]):
-                    dist[v] = dist[u] + self.graph[u][v]
-                    predecessors[v] = u
-                    path_nodes[v] = u
+        return minIndex
+ 
+    def dijkstra(self, startNode, endNode):
+        # Return list starting and ending in same location
+        if startNode == endNode:
+            reverseMap = {}
+            for node, index in self.nodeIndices.items():
+                reverseMap[index] = node
+                
+            return self.convertToCoordinates([reverseMap[startNode], reverseMap[endNode]])
+        
+        # Initialize array with infinity for all nodes
+        minDistances = [float('inf')] * self.nodeCount
+        minDistances[startNode] = 0
+        
+        nodesVisited = [False] * self.nodeCount
+        predecessors = [-1] * self.nodeCount
+
+        # Dijkstra's main loop
+        for _ in range(self.nodeCount):
+            # Get node with smallest distance, mark as visited
+            currentNode = self.minDistance(minDistances, nodesVisited)
+            nodesVisited[currentNode] = True
+
+            # Update shortest distances for neighboring nodes
+            for neighbor in range(self.nodeCount):
+                # Checck for unvisited edge, and undiscovered shortest path
+                if (self.graph[currentNode][neighbor] > 0 and not nodesVisited[neighbor] 
+                        and minDistances[neighbor] > minDistances[currentNode] + self.graph[currentNode][neighbor]):
+                    # Update neighbors shortest distance
+                    minDistances[neighbor] = minDistances[currentNode] + self.graph[currentNode][neighbor]
+                    # Set current node as neighbors predecessor
+                    predecessors[neighbor] = currentNode
                     
+        # Reconstruct path from endNode to startNode
         path = []
-        current = end
+        current = endNode
         while current  != -1 and predecessors[current] != -1:
             path.insert(0, current)
             current = predecessors[current]
             
         # Insert original node
-        if path[0] != start:
-            path.insert(0,start)
+        if path[0] != startNode:
+            path.insert(0,startNode)
+        
+        # Reverse map to correct order
+        reverseMap = {}
+        for node, index in self.nodeIndices.items():
+            reverseMap[index] = node
             
-        reverse_map = {v: k for k, v in self.vertex_map.items()}
-        node_path = [reverse_map[node] for node in path]
-        # return node_path
-        path_coords = self.get_node_coordinates(node_path)
+        # Convert path of node names to node coordinates for api
+        node_path = [reverseMap[node] for node in path]
+        path_coords = self.convertToCoordinates(node_path)
+        
         return path_coords
  
-    def add_edge(self, from_vertex, to_vertex, weight, path_name):
-        if from_vertex in self.vertex_map and to_vertex in self.vertex_map:
-            u = self.vertex_map[from_vertex]
-            v = self.vertex_map[to_vertex]
-            self.graph[u][v] = weight
-            self.graph[v][u] = weight  # For undirected graph
-            self.edge_map[(u, v)] = path_name
-            self.edge_map[(v, u)] = path_name  # Both directions
+    def addEdge(self, startNode, endNode, edgeWeight):
+        if startNode in self.nodeIndices and endNode in self.nodeIndices:
+            # Get indices of start and end node
+            startIndex = self.nodeIndices[startNode]
+            endIndex = self.nodeIndices[endNode]
+            
+            # set weight for both directions
+            self.graph[startIndex][endIndex] = edgeWeight
+            self.graph[endIndex][startIndex] = edgeWeight  # For undirected graph
 
-    def setup_graph(self, graph):
-        self.vertex_map = {node: index for index, node in enumerate(graph.keys())}
-        self.V = len(self.vertex_map)
-        self.graph = [[0 for _ in range(self.V)] for _ in range(self.V)]
+    def setupGraph(self, graph):
+        # self.nodeIndices = {node: index for index, node in enumerate(graph.keys())}
+        self.nodeIndices = {}
+        for index, node in enumerate(graph.keys()):
+            self.nodeIndices[node] = index
+        
+        # Get number of nodes in graph
+        self.nodeCount = len(self.nodeIndices)
 
+        # Populate matrix with edge weights
         for node, edges in graph.items():
             for edge in edges:
                 if edge['weight'] is not None:  # Ensure weight is not NULL
-                    self.add_edge(node, edge['to'], edge['weight'], edge['pathName'])
+                    self.addEdge(node, edge['to'], edge['weight'])
     
-    def get_path_names(self, path):
-        reverse_map = {v: k for k, v in self.vertex_map.items()}
-        return [reverse_map[node] for node in path]
-    
-    def get_node_coordinates(self, nodeNames):
+    # Convert a list of node names to a list of their coordinates
+    def convertToCoordinates(self, nodeNames):
         coordinateList = []
+        
         # Iterate through the nodeNames list to preserve the order
         for node in nodeNames:
             if node in node_coordinates:
@@ -92,7 +123,7 @@ class Graph():
 
 # ===== Debugging: Test Dijkstra algorithm for correctness =====
 # g = Graph(len(graph))
-# g.setup_graph(graph)
+# g.setupGraph(graph)
 
 # # # Case 1
 # # startNode = 'cob2'
@@ -102,8 +133,8 @@ class Graph():
 # startNode = "acs"
 # endNode = "acs"
 
-# startIndex = g.vertex_map[startNode]
-# endIndex = g.vertex_map[endNode]
+# startIndex = g.nodeIndices[startNode]
+# endIndex = g.nodeIndices[endNode]
 
 # pathCoords = g.dijkstra(startIndex, endIndex)
 

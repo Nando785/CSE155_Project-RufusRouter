@@ -62,4 +62,3 @@ function addPath(map, pathCoordinates){
     // Change map scale to fit line
     map.fitBounds(latlngs);
 }
-

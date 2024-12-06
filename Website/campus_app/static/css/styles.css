@@ -115,10 +115,6 @@ html, body {
     background-color: #ffbf3c; /* Change color when hovering */
   }
 
-  /* .mapBox {
-    
-  } */
-
   .fileInputLabel {
     display: inline-flex; /* Make it behave like a flex container */
     justify-content: center; /* Center the content horizontally */
@@ -153,3 +149,4 @@ html, body {
   #map {
     height: 100%;
   }
+  
