@@ -14,24 +14,23 @@ sudo apt install python3 python3-pip python3-venv nginx certbot python3-certbot-
 
 
 
- - Configure Web Server (Nginx) as a reverse proxy with parameters, then enable the 
-   configurations.
+ - Configure Web Server (Nginx) as a reverse proxy
 
-sudo nano /etc/nginx/sites-available/RufusRouter  **THIS WILL PUT YOU IN A TERMINAL TEXT EDITOR.  ADD THE LINES BELOW**
+sudo nano /etc/nginx/sites-available/RufusRouter  **THIS WILL PUT YOU IN A TERMINAL TEXT EDITOR.  ADD THE LINES BELOW.**
 
 -----**COPY AND PASTE**-----
 
 server {
     listen 80;
-    server_name rufusrouter.duckdns.org;  **<--ROUTERS DOMAIN NAME**
+    server_name rufusrouter.duckdns.org;  **<--ROUTERS DOMAIN NAME(CONFIGURE WITH DUCKDNS/OTHER DNS SERVICE)**
 
     location / {
-        proxy_pass http://127.0.0.1:5000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
+        proxy_pass http://127.0.0.1:5000;                               **Points Nginx to the Flask Server**
+        proxy_set_header Host $host;                                    **proxy_set_header allows us to add headers in the request forwarded to the flask server.  Here we specifically pass in the Host.  This is more of a technicality, and we do not utilize this functionality.
+        proxy_set_header X-Real-IP $remote_addr;                        **passes the clients IP to the flask server, for logging purposes.
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    **logs originating IP as well as Proxy IPs.
+        proxy_set_header X-Forwarded-Proto $scheme;                     **Passes in the protocol HTTP or HTTPS from the request to the flask application.
+        proxy_redirect off;                                             **Avoids redirect loops by circumventing nginx (we have no loops)
     }
     location /static/ {
         alias /home/dbaudhuin/CSE155_Project-RufusRouter/Website/campus_app/static/;  **<--FILE PATH TO BE FILLED IN (in the cloned git repo)**
@@ -44,8 +43,8 @@ server {
 
  - Create symlink between available sites and the sites that are enabled, then test
 
-sudo ln -sf /etc/nginx/sites-available/RufusRouter /etc/nginx/sites-enabled
-sudo nginx -t
+sudo ln -sf /etc/nginx/sites-available/RufusRouter /etc/nginx/sites-enabled     **Links our configuration file in RufusRouter into the sites-enabled folder, therfore enabling it when nginx starts.**
+sudo nginx -t   **Tests the nginx server**
 sudo systemctl restart nginx
 
 
@@ -65,13 +64,13 @@ sudo ufw enable
 
  - Set up DNS so that we can have a domain to route too (USING DUCK DNS).
 
-ps -ef | grep cr[o]n
-mkdir duckdns  **OUTSIDE OF PROJECT FOLDER**
+ps -ef | grep cr[o]n                                **List all services running and pipe them to grep, to search for "cron"
+mkdir duckdns                                       **OUTSIDE OF PROJECT FOLDER CLONED FROM GIT**
 cd duckdns
-nano duck.sh  **THIS WILL PUT YOU IN A TERMINAL TEXT EDITOR.  EACH CONFIG IS DIFFERENT SO FOLLOW DUCKDNS TUTORIAL**
+nano duck.sh                                        **THIS WILL PUT YOU IN A TERMINAL TEXT EDITOR.  EACH CONFIG IS DIFFERENT SO FOLLOW DUCKDNS/OTHER DNS SERVICE TUTORIAL**
 chmod 700 duck.sh
 crontab -e
-*/5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1
+*/5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1       **Runs the duck.sh script every 5 minutes to ensure DNS is up to date, and silences outputs of the file.
 
 
 
@@ -83,11 +82,12 @@ crontab -e
 
 
  - Enter project folder and make a virtual environment:
+
 cd **FILE PATH TO ROOT OF PROJECT FOLDER TO BE FILLED IN**
 python3 -m venv venv (The second "venv" is the name of the virtual environment and is arbitrary.)  
 
-     - To activate this virtual environment use: source venv/bin/activate
-     - To deactivate this virtual environment use: deactivate
+ - To activate this virtual environment use: source venv/bin/activate
+ - To deactivate this virtual environment use while inside: deactivate
 
 
 
@@ -102,15 +102,13 @@ pip install -r requirements.txt
 
 screen
 
+ - Press "CTRL + a" and then press "d" to detatch from the screen you made
+
 
 
  - Run the project and make it accessible
 
 python3 project.py --host=0.0.0.0
-
-
-
- - Press "CTRL + a" and then press "d" to detatch from the screen you made
 
 
 
@@ -120,7 +118,7 @@ python3 project.py --host=0.0.0.0
 
 
 
- - At this point you are able to see incoming GET requests and the url that is generated for others to connect with.  It is temporary.
+ - At this point you are able to see incoming GET requests and the url that is generated for others to connect with.  It is temporary if using the free version of ngrok.
 
 
 
